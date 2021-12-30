@@ -13,6 +13,6 @@ class Mesh(Object3D):
         self.vao.bind()
         for variableName, attributeObject in geometry.attributes.items():
             location = self.material.shader.findAttributeLocation(variableName)
-            print(variableName, location)
-            attributeObject.bindTo(location)
+            if location != -1:
+                attributeObject.bindTo(location)
         glBindVertexArray(0)

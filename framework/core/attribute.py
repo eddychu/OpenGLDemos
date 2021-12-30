@@ -25,6 +25,7 @@ class Attribute(object):
         glBufferData(GL_ARRAY_BUFFER, data.ravel(), GL_STATIC_DRAW)
 
     def bindTo(self, location):
+        print("dataTYpe", self.dataType)
         glBindBuffer(GL_ARRAY_BUFFER, self.handle)
 
         if self.dataType == AttributeDataType.FLOAT:
@@ -44,4 +45,3 @@ class Attribute(object):
 
     def destroy(self):
         glDeleteBuffers(1, [self.handle])
-    

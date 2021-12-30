@@ -25,8 +25,7 @@ class BasicMaterial(Material):
         out vec4 fragColor;
         void main()
         {
-            vec4 tempColor = vec4(baseColor, 1.0);
-            fragColor = tempColor;
+            fragColor = vec4(baseColor, 1.0);
         }
         """
 

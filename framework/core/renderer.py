@@ -31,6 +31,9 @@ class Renderer(object):
             for variableName, uniformObject in mesh.material.uniforms.items():
                 print(variableName)
                 print(uniformObject.dataType)
-                uniformObject.bind(
-                    mesh.material.shader.findUniformLocation(variableName))
+                location = mesh.material.shader.findUniformLocation(
+                    variableName)
+                print(location)
+                if location != -1:
+                    uniformObject.bind(location)
             glDrawArrays(GL_TRIANGLES, 0, mesh.geometry.vertexCount)
