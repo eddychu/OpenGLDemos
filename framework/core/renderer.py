@@ -10,9 +10,6 @@ class Renderer(object):
     def __init__(self, size) -> None:
         self.size = size
 
-    def setSize(self, size):
-        self.size = size
-
     def render(self, scene: Scene, camera: Camera):
         glViewport(0, 0, self.size[0], self.size[1])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -36,4 +33,5 @@ class Renderer(object):
                 print(location)
                 if location != -1:
                     uniformObject.bind(location)
-            glDrawArrays(GL_TRIANGLES, 0, mesh.geometry.vertexCount)
+            glDrawArrays(
+                mesh.material.settings["drawStyle"], 0, mesh.geometry.vertexCount)

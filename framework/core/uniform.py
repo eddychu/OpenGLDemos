@@ -11,6 +11,7 @@ class UniformDataType(Enum):
     MAT2 = 6
     MAT3 = 7
     MAT4 = 8
+    SAMPLER2D = 9
 
 
 class Uniform(object):
@@ -35,6 +36,10 @@ class Uniform(object):
             glUniform1i(location, self.data)
         elif self.dataType == UniformDataType.FLOAT:
             glUniform1f(location, self.data)
+        elif self.dataType == UniformDataType.SAMPLER2D:
+            glActiveTexture(GL_TEXTURE0 + self.data)
+            glBindTexture(GL_TEXTURE_2D, self.data)
+            # glUniform1i(location, self.data)
         else:
             raise Exception("Uniform location + " +
                             str(location) + " has Unknown data type")

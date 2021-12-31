@@ -26,10 +26,12 @@ class Example(Base):
         self.camera.setPosition([0.0, 0.0, 5.0])
         cube = BoxGeometry(1, 1, 1)
         material = BasicMaterial()
-        mesh = Mesh(cube, material)
-        self.scene.add(mesh)
+        self.mesh = Mesh(cube, material)
+        self.scene.add(self.mesh)
 
     def update(self):
+        self.mesh.rotateX(0.003)
+        self.mesh.rotateY(0.004)
         self.renderer.render(self.scene, self.camera)
 
     def cleanup(self):

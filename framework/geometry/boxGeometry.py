@@ -32,6 +32,6 @@ class BoxGeometry(Geometry):
 
         self.addAttribute("vertexPosition",
                           AttributeDataType.VEC3, positionData)
-        # self.addAttribute("vertexNormal", AttributeDataType.VEC3, normalData)
-        # self.addAttribute("vertexUV", AttributeDataType.VEC2, uvData)
+        self.addAttribute("vertexNormal", AttributeDataType.VEC3, normalData)
+        self.addAttribute("vertexUV", AttributeDataType.VEC2, uvData)
         self.countVertices()

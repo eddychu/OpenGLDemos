@@ -29,10 +29,15 @@ class Base(object):
         glfw.set_mouse_button_callback(self.window, self.mouse_button_callback)
         glfw.set_cursor_pos_callback(self.window, self.mouse_position_callback)
 
+    def onResize(self, size):
+        pass
+
     def framebuffer_size_callback(self, window, width, height):
         print("check framebuffer size callback " +
               str(width) + " " + str(height))
         glViewport(0, 0, width, height)
+        self.size = [width, height]
+        self.onResize(self.size)
 
     def key_callback(self, window, key, scancode, action, mods):
         if action == glfw.PRESS:
