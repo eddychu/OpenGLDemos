@@ -11,6 +11,8 @@ class Mesh(Object3D):
         self.visible = True
         self.vao = VertexArray()
         self.vao.bind()
+        if self.geometry.index is not None:
+            self.geometry.index.bind()
         for variableName, attributeObject in geometry.attributes.items():
             location = self.material.shader.findAttributeLocation(variableName)
             if location != -1:
