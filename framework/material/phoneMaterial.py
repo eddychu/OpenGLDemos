@@ -4,7 +4,7 @@ from framework.core.uniform import Uniform, UniformDataType
 
 class PhongMaterial(Material):
 
-    def __init__(self, texture=None, properties={}) -> None:
+    def __init__(self, texture=None, normalTexture=None, properties={}) -> None:
         vertexShaderCode = """
         #version 460
         uniform mat4 projectionMatrix;
@@ -35,7 +35,6 @@ class PhongMaterial(Material):
             vec3 color;
             vec3 direction;
             vec3 position;
-            vec3 attenuation;
         };
 
         uniform Light light0;
@@ -46,6 +45,8 @@ class PhongMaterial(Material):
         uniform vec3 viewPosition;
         uniform float specularStrength;
         uniform float shininess;
+
+
 
         vec3 lightCalc(Light light, vec3 pointPosition, vec3 pointNormal)
         {
@@ -65,7 +66,7 @@ class PhongMaterial(Material):
             {
                 lightDirection = normalize(pointPosition - light.position);
                 float distance = length(light.position - pointPosition);
-                attenuation = 1.0 / (light.attenuation[0] + light.attenuation[1] * distance + light.attenuation[2] * distance * distance);
+                attenuation = 1.0 / (distance * distance);
             }
 
             if (light.lightType > 1) 
@@ -85,8 +86,11 @@ class PhongMaterial(Material):
 
             return light.color * (ambient + diffuse + specular);
         }
-
+        uniform bool useTexture;
         uniform sampler2D texture;
+        uniform bool useNormalTexture;
+        uniform sampler2D normalTexture;
+
         in vec3 position;
         in vec2 UV;
         in vec3 normal;
@@ -94,12 +98,22 @@ class PhongMaterial(Material):
         out vec4 fragColor;
         void main() 
         {
-            vec4 color = texture2D(texture, UV);
+            vec4 color = vec4(1.0, 0.0, 0.0, 1.0);
+            if (useTexture)
+            {
+                color = texture2D(texture, UV);
+            }
+            vec3 bNormal = normal;
+            if (useNormalTexture)
+            {
+                bNormal += normalize(vec3(texture2D(normalTexture, UV)) * 2.0 - 1.0);
+            }
+
             vec3 total = vec3(0, 0, 0);
-            total += lightCalc(light0, position, normal);
-            total += lightCalc(light1, position, normal);
-            total += lightCalc(light2, position, normal);
-            total += lightCalc(light3, position, normal);
+            total += lightCalc(light0, position, bNormal);
+            total += lightCalc(light1, position, bNormal);
+            total += lightCalc(light2, position, bNormal);
+            total += lightCalc(light3, position, bNormal);
             fragColor = color * vec4(total, 1.0);
         }
         """
@@ -113,8 +127,13 @@ class PhongMaterial(Material):
 
         # color *= vec4(total, 1.0);
         super().__init__(vertexShaderCode, fragmentShaderCode)
+        if texture is None:
+            self.addUniform("useTexture", UniformDataType.BOOL, False)
+        else:
+            self.addUniform("useTexture", UniformDataType.BOOL, True)
+            self.addUniform(
+                "texture", UniformDataType.SAMPLER2D, texture.handle)
 
-        self.addUniform("texture", UniformDataType.SAMPLER2D, texture.handle)
         self.addUniform("light0", UniformDataType.LIGHT, None)
         self.addUniform("light1", UniformDataType.LIGHT, None)
         self.addUniform("light2", UniformDataType.LIGHT, None)
@@ -122,5 +141,12 @@ class PhongMaterial(Material):
         self.addUniform("specularStrength", UniformDataType.FLOAT, 1.0)
         self.addUniform("shininess", UniformDataType.FLOAT, 32.0)
         self.addUniform("viewPosition", UniformDataType.VEC3, [0, 0, 0])
+
+        if normalTexture is None:
+            self.addUniform("useNormalTexture", UniformDataType.BOOL, False)
+        else:
+            self.addUniform("useNormalTexture", UniformDataType.BOOL, True)
+            self.addUniform("normalTexture",
+                            UniformDataType.SAMPLER2D, normalTexture.handle)
 
         self.locateUniforms()

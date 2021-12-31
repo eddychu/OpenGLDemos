@@ -4,6 +4,7 @@ from framework.light.light import Light
 
 
 class UniformDataType(Enum):
+    BOOL = 0
     FLOAT = 1
     INT = 2
     VEC2 = 3
@@ -31,8 +32,7 @@ class Uniform(object):
                 programRef, variableName + ".lightType")
             self.variableRef["color"] = glGetUniformLocation(
                 programRef, variableName + ".color")
-            self.variableRef["attenuation"] = glGetUniformLocation(
-                programRef, variableName + ".attenuation")
+
             self.variableRef["position"] = glGetUniformLocation(
                 programRef, variableName + ".position")
             self.variableRef["direction"] = glGetUniformLocation(
@@ -56,12 +56,15 @@ class Uniform(object):
                 self.variableRef, self.data[0], self.data[1])
         elif self.dataType == UniformDataType.INT:
             glUniform1i(self.variableRef, self.data)
+        elif self.dataType == UniformDataType.BOOL:
+            glUniform1i(self.variableRef, self.data)
         elif self.dataType == UniformDataType.FLOAT:
             glUniform1f(self.variableRef, self.data)
         elif self.dataType == UniformDataType.SAMPLER2D:
+            print("Sampler2D ", self.variableRef, self.data)
             glActiveTexture(GL_TEXTURE0 + self.data)
             glBindTexture(GL_TEXTURE_2D, self.data)
-            # glUniform1i(location, self.data)
+            glUniform1i(self.variableRef, self.data)
         elif self.dataType == UniformDataType.LIGHT:
             glUniform1i(self.variableRef["lightType"], self.data.lightType)
             if(self.data.lightType == Light.DIRECTIONAL):
@@ -72,8 +75,6 @@ class Uniform(object):
                         position[1], position[2])
             glUniform3f(self.variableRef["color"], self.data.color[0],
                         self.data.color[1], self.data.color[2])
-            glUniform3f(self.variableRef["attenuation"], self.data.attenuation[0],
-                        self.data.attenuation[1], self.data.attenuation[2])
 
         else:
             raise Exception("Uniform location + " +

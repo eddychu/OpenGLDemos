@@ -10,4 +10,3 @@ class Light(Object3D):
         super().__init__()
         self.lightType = lightType
         self.color = [1, 1, 1]
-        self.attenuation = [1, 0, 0]
