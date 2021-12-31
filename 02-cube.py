@@ -34,13 +34,6 @@ class Example(Base):
         self.mesh.rotateY(0.004)
         self.renderer.render(self.scene, self.camera)
 
-    def cleanup(self):
-        pass
-        # print("Cleaning up {}...".format(self.name))
-        # self.positionAttribute.destroy()
-        # self.vao.destroy()
-        # self.shader.destroy()
-
 
 if __name__ == "__main__":
     Example().run()

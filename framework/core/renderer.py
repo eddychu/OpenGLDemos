@@ -3,6 +3,7 @@ from numpy import array
 from framework.core.camera import Camera
 from framework.core.scene import Scene
 from framework.core.mesh import Mesh
+from framework.light.light import Light
 
 
 class Renderer(object):
@@ -18,6 +19,11 @@ class Renderer(object):
         def meshFilter(x): return isinstance(x, Mesh)
         renderList = list(filter(meshFilter, descendants))
 
+        def lightFilter(x): return isinstance(x, Light)
+        lightList = list(filter(lightFilter, descendants))
+        while len(lightList) < 4:
+            lightList.append(Light())
+
         for mesh in renderList:
             mesh.material.shader.use()
             mesh.vao.bind()
@@ -25,13 +31,16 @@ class Renderer(object):
             mesh.material.uniforms["viewMatrix"].data = camera.viewMatrix
             mesh.material.uniforms["projectionMatrix"].data = camera.projectionMatrix
 
+            if "light0" in mesh.material.uniforms.keys():
+                for lightNumber in range(4):
+                    lightName = "light" + str(lightNumber)
+                    lightObject = lightList[lightNumber]
+                    mesh.material.uniforms[lightName].data = lightObject
+
+            if "viewPostion" in mesh.material.uniforms.keys():
+                mesh.material.uniforms["viewPostion"].data = camera.getWorldPosition(
+                )
             for variableName, uniformObject in mesh.material.uniforms.items():
-                print(variableName)
-                print(uniformObject.dataType)
-                location = mesh.material.shader.findUniformLocation(
-                    variableName)
-                print(location)
-                if location != -1:
-                    uniformObject.bind(location)
+                uniformObject.upload()
             glDrawArrays(
                 mesh.material.settings["drawStyle"], 0, mesh.geometry.vertexCount)

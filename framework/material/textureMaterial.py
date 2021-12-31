@@ -38,6 +38,7 @@ class TextureMaterial(Material):
 
         self.addUniform("texture", UniformDataType.SAMPLER2D, texture.handle)
 
+        self.locateUniforms()
         # self.settings["doubleSide"] = True
         # self.settings["wireframe"] = False
         # self.settings["lineWidth"] = 1

@@ -63,9 +63,6 @@ class Base(object):
     def update(self):
         pass
 
-    def cleanup(self):
-        pass
-
     def run(self):
         self.initialize()
         while not glfw.window_should_close(self.window):
@@ -74,5 +71,4 @@ class Base(object):
             self.update()
             glfw.swap_buffers(self.window)
             glfw.poll_events()
-        self.cleanup()
         glfw.terminate()

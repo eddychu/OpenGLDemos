@@ -6,7 +6,6 @@ class Object3D(object):
 
     def __init__(self) -> None:
         self.transform = Matrix.makeIdentify()
-
         self.parent = None
         self.children = []
 

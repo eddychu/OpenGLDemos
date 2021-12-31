@@ -21,6 +21,10 @@ class Material(object):
     def addUniform(self, variableName, dataType, data):
         self.uniforms[variableName] = Uniform(dataType, data)
 
+    def locateUniforms(self):
+        for variableName, uniformObject in self.uniforms.items():
+            uniformObject.locateVariable(self.shader.program, variableName)
+
     def updateRenderSettings(self):
         pass
 

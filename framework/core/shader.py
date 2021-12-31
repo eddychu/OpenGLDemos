@@ -6,8 +6,6 @@ class Shader(object):
 
     def __init__(self, vertexStr: str, fragmentStr: str) -> None:
         super().__init__()
-        print(vertexStr)
-        print(fragmentStr)
         vertexShader = self.createShader(vertexStr, GL_VERTEX_SHADER)
         fragmentShader = self.createShader(fragmentStr, GL_FRAGMENT_SHADER)
         self.program = glCreateProgram()
@@ -17,8 +15,8 @@ class Shader(object):
         if glGetProgramiv(self.program, GL_LINK_STATUS) != GL_TRUE:
             raise Exception(glGetProgramInfoLog(self.program))
 
-        print("attributes: ", glGetProgramiv(
-            self.program, GL_ACTIVE_ATTRIBUTES))
+        # print("attributes: ", glGetProgramiv(
+        #     self.program, GL_ACTIVE_ATTRIBUTES))
 
         glDeleteShader(vertexShader)
         glDeleteShader(fragmentShader)
@@ -39,6 +37,3 @@ class Shader(object):
 
     def use(self):
         glUseProgram(self.program)
-
-    def destroy(self):
-        glDeleteProgram(self.program)

@@ -31,3 +31,5 @@ class BasicMaterial(Material):
 
         super().__init__(vertexShaderCode, fragmentShaderCode)
         self.addUniform("baseColor", UniformDataType.VEC3, [1.0, 0.0, 0.0])
+
+        self.locateUniforms()

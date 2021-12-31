@@ -19,7 +19,6 @@ class Texture(object):
             self.width, self.height = im.size
             im = im.convert("RGBA")
             self.data = numpy.asarray(im, dtype=numpy.uint8)
-            print(self.data)
 
         self.setProperties(properties)
         self.upload()
@@ -40,6 +39,3 @@ class Texture(object):
                         self.properties["magFilter"])
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                         self.properties["minFilter"])
-
-    def destroy(self):
-        glDeleteTextures(1, self.handle)

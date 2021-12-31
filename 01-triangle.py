@@ -49,24 +49,19 @@ class Example(Base):
         self.vao.unbind()
         mMatrix = Matrix.makeTranslation(0, 0, -1)
         self.modelMatrix = Uniform(UniformDataType.MAT4, mMatrix)
-
+        self.modelMatrix.locateVariable(self.shader.program, "modelMatrix")
         pMatrix = Matrix.makePerspective()
         self.projectionMatrix = Uniform(UniformDataType.MAT4, pMatrix)
+        self.projectionMatrix.locateVariable(
+            self.shader.program, "projectionMatrix")
 
     def update(self):
         glClear(GL_COLOR_BUFFER_BIT)
         self.shader.use()
         self.vao.bind()
-        self.modelMatrix.bind(self.shader.findUniformLocation("modelMatrix"))
-        self.projectionMatrix.bind(
-            self.shader.findUniformLocation("projectionMatrix"))
+        self.modelMatrix.upload()
+        self.projectionMatrix.upload()
         glDrawArrays(GL_TRIANGLES, 0, self.vertexCount)
-
-    def cleanup(self):
-        print("Cleaning up {}...".format(self.name))
-        self.positionAttribute.destroy()
-        self.vao.destroy()
-        self.shader.destroy()
 
 
 if __name__ == "__main__":

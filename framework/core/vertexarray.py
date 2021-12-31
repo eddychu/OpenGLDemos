@@ -11,6 +11,3 @@ class VertexArray(object):
 
     def unbind(self):
         glBindVertexArray(0)
-
-    def destroy(self):
-        glDeleteVertexArrays(1, [self.handle])

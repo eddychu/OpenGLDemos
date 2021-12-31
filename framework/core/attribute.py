@@ -42,6 +42,3 @@ class Attribute(object):
             raise Exception("Attribute location + " +
                             location + " has Unknown data type")
         glEnableVertexAttribArray(location)
-
-    def destroy(self):
-        glDeleteBuffers(1, [self.handle])
