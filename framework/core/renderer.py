@@ -42,9 +42,19 @@ class Renderer(object):
                 )
             for variableName, uniformObject in mesh.material.uniforms.items():
                 uniformObject.upload()
+
             if mesh.geometry.index is not None:
-                glDrawElements(
-                    mesh.material.settings["drawStyle"], mesh.geometry.vertexCount, GL_UNSIGNED_INT, None)
+                if mesh.count > 1:
+                    glDrawElementsInstanced(
+                        mesh.material.settings["drawStyle"], mesh.geometry.vertexCount, GL_UNSIGNED_INT, None, mesh.count)
+                else:
+                    glDrawElements(
+                        mesh.material.settings["drawStyle"], mesh.geometry.vertexCount, GL_UNSIGNED_INT, None)
             else:
-                glDrawArrays(
-                    mesh.material.settings["drawStyle"], 0, mesh.geometry.vertexCount)
+                if mesh.count > 1:
+                    print("drawing instanced ", mesh.count)
+                    glDrawArraysInstanced(
+                        mesh.material.settings["drawStyle"], 0, mesh.geometry.vertexCount, mesh.count)
+                else:
+                    glDrawArrays(
+                        mesh.material.settings["drawStyle"], 0, mesh.geometry.vertexCount)

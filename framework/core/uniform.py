@@ -75,7 +75,6 @@ class Uniform(object):
                         position[1], position[2])
             glUniform3f(self.variableRef["color"], self.data.color[0],
                         self.data.color[1], self.data.color[2])
-
         else:
             raise Exception("Uniform location + " +
                             str(self.variableRef) + " has Unknown data type")

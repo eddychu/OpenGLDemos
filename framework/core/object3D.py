@@ -73,6 +73,8 @@ class Object3D(object):
         self.transform.itemset((0, 3), position[0])
         self.transform.itemset((1, 3), position[1])
         self.transform.itemset((2, 3), position[2])
+        print("set transform")
+        print(self.transform)
 
     def getRotationMatrix(self):
         return numpy.array([self.transform[0][0:3], self.transform[1][0:3], self.transform[2][0:3]])

@@ -2,6 +2,7 @@ from framework.core.attribute import Attribute, AttributeDataType
 from framework.core.indexAttribute import IndexAttribute
 from framework.core.object3D import Object3D
 from framework.extras.objLoader import ObjData, ObjLoader
+from framework.core.instancedAttribute import InstancedAttribute
 
 
 class Geometry(Object3D):
@@ -27,8 +28,11 @@ class Geometry(Object3D):
         self.vertexCount = None
         self.index = None
 
-    def addAttribute(self, variableName, dataType, data):
-        self.attributes[variableName] = Attribute(dataType, data)
+    def addAttribute(self, variableName, dataType, data, isInstanced=False):
+        if isInstanced:
+            self.attributes[variableName] = InstancedAttribute(dataType, data)
+        else:
+            self.attributes[variableName] = Attribute(dataType, data)
 
     def setIndexAttribute(self, data):
         self.index = IndexAttribute(data)
