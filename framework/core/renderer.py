@@ -43,6 +43,8 @@ class Renderer(object):
             for variableName, uniformObject in mesh.material.uniforms.items():
                 uniformObject.upload()
 
+            mesh.material.updateRenderSettings()
+
             if mesh.geometry.index is not None:
                 if mesh.count > 1:
                     glDrawElementsInstanced(

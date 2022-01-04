@@ -12,6 +12,7 @@ from framework.core.scene import Scene
 from framework.geometry.boxGeometry import BoxGeometry
 from framework.material.basicMaterial import BasicMaterial
 from framework.material.lineMaterial import LineMaterial
+from framework.extras.axesHelper import AxesHelper
 
 
 class Example(Base):
@@ -24,12 +25,10 @@ class Example(Base):
         self.renderer = Renderer(self.size)
         self.scene = Scene()
         self.camera = Camera(60, self.size[0] / self.size[1], 0.1, 100.0)
-        self.camera.setPosition([0.0, 0.0, 5.0])
-        cube = BoxGeometry(1, 1, 1)
+        self.camera.setPosition([10.0, 10.0, 100.0])
+        axis = AxesHelper(10)
         # material = BasicMaterial()
-        material = LineMaterial()
-        self.mesh = Mesh(cube, material)
-        self.scene.add(self.mesh)
+        self.scene.add(axis)
 
     def update(self):
         # self.mesh.rotateX(0.003)

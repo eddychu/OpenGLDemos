@@ -14,6 +14,10 @@ from framework.material.basicMaterial import BasicMaterial
 from framework.material.pbrMaterial import PBRMaterial
 from framework.light.pointLight import PointLight
 
+# there is issue with this example
+# when rotating. it seems that the light is also rotating
+# need add helper line drawing utility to draw normal and light lines for debug purposes
+
 
 class Example(Base):
     def __init__(self):
@@ -33,8 +37,6 @@ class Example(Base):
         light.setPosition([1, 1, 3])
         self.scene.add(self.mesh)
         self.scene.add(light)
-        # self.mesh.rotateX(1)
-        # self.mesh.rotateY(1)
         glEnable(GL_DEPTH_TEST)
         glCullFace(GL_BACK)
 

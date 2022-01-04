@@ -24,7 +24,7 @@ class Example(Base):
         self.scene = Scene()
         self.camera = Camera(60, self.size[0] / self.size[1], 0.1, 100.0)
         self.camera.setPosition([0.0, 0.0, 20.0])
-        material = BasicMaterial()
+        material = BasicMaterial(True)
         geometry = BoxGeometry(1, 1, 1)
 
         instancePositionData = []
@@ -36,6 +36,7 @@ class Example(Base):
 
         geometry.addAttribute("instancePosition",
                               AttributeDataType.VEC3, instancePositionData, True)
+
         self.cube = Mesh(geometry, material, 100)
         self.scene.add(self.cube)
         glEnable(GL_DEPTH_TEST)
